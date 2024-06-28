@@ -1,5 +1,6 @@
 import useCampaign, { parseArrayToCampaignData } from "@/hooks/getCampaign";
 import React from "react";
+import JSXStyle from "styled-jsx/style";
 
 
 

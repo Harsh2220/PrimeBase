@@ -12,6 +12,7 @@ import Image from "next/image";
 
 export default function Create() {
   const [productImage, setProductImage] = useState('');
+  const [imagePreviewUrl, setimagePreviewUrl] = useState("");
   const [imageUrl, setImageUrl] = useState('');
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [opponent1, setOpponent1] = useState('');
@@ -54,7 +55,7 @@ export default function Create() {
   async function createCampaign() {
     if (data === true) {
       try {
-        
+        const currentTimestamp = Math.floor(Date.now() / 1000);
         const response = await writeContractAsync({
           abi: factoryABI,
           address: '0x046288B7dB9ac43443e692b62F75345670F7ba4c',
@@ -65,7 +66,7 @@ export default function Create() {
             opponent2,
             description,
             parseUnits(betAmount.toString(), 18),
-            1722157103
+            currentTimestamp,
           ],
         })
         console.log(response);
@@ -127,7 +128,10 @@ export default function Create() {
               type="file"
               label="Upload Product"
               onChange={(e) => {
-                uploadProductImage(e.target.files[0]);
+                if (e.target.files && e.target.files.length > 0) {
+                  setimagePreviewUrl(URL.createObjectURL(e.target.files[0]))
+                  uploadProductImage(e.target.files[0]);
+                }
               }}
             />
             {/* <div className="flex flex-col space-y-1.5">
@@ -172,35 +176,9 @@ export default function Create() {
             height={50}
             width={50}
             className="h-full w-full"
-            src="https://shuffle.dev/saturn-assets/images/sign-up/image-funny.png"
+            src={imagePreviewUrl ? imagePreviewUrl : "https://shuffle.dev/saturn-assets/images/sign-up/image-funny.png"}
             alt=""
           />
-          <div className="absolute bottom-0 w-full left-0 p-4 lg:px-12 xl:px-20 sm:pb-16">
-            <div className="p-10 backdrop-blur-md backdrop-filter bg-black bg-opacity-30 rounded-5xl">
-              <p className="text-white font-medium mb-6">
-                I’m impressed with the result I’ve seen since starting to use
-                this product, I begin receiving client and project in the first
-                week.
-              </p>
-              <div className="flex items-start">
-                <Image
-                  loader={({ src }) => src}
-                  height={50}
-                  width={50}
-                  src="https://shuffle.dev/saturn-assets/images/sign-up/avatar-pink.png"
-                  alt=""
-                />
-                <div className="ml-4">
-                  <span className="block text-white font-medium leading-none">
-                    Maria Jola
-                  </span>
-                  <span className="text-xs text-white opacity-50">
-                    Staff Accounting
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

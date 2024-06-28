@@ -16,6 +16,5 @@ const UploadIcon: React.FC<{className: string}> = ({className}) => {
       </svg>
     );
   };
-  
+
   export default UploadIcon;
-  

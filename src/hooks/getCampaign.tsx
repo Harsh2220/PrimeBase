@@ -14,7 +14,8 @@ interface CampaignData {
   winner: number;
   isClosed: boolean;
 }
-export const parseArrayToCampaignData = (arr: (string | number | boolean | bigint)[]): CampaignData => {
+export const parseArrayToCampaignData = (arr: (string | number | boolean | bigint)[]): CampaignData | undefined => {
+  if (!arr) return
   return {
     image: arr[0] as string,
     opp1: arr[1] as string,
@@ -34,9 +35,9 @@ function useCampaign(contractAddress: string) {
     functionName: "getCampaignDetails",
     args: [contractAddress],
   })
-
+  const typedData = parseArrayToCampaignData(data as any) as CampaignData;
   return {
-    data: parseArrayToCampaignData(data as any),
+    data: typedData ?? [],
     error,
     isLoading
   }

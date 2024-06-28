@@ -1,5 +1,5 @@
 import UploadIcon from '../icons/upload';
-import React from 'react';
+import React, { ChangeEvent, ChangeEventHandler } from 'react';
 
 interface IUpload {
   id: string;
@@ -7,7 +7,7 @@ interface IUpload {
   type?: string;
   accept?: string;
   label: string;
-  onChange: (e: any) => void;
+  onChange: (e:ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Upload = ({id, name, type, accept, label, onChange}: IUpload) => {

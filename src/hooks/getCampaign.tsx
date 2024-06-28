@@ -3,7 +3,6 @@ import { PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from '@/constant/contracts'
 import { factoryABI } from '@/contracts/prime-base/factoryABI'
 import React from 'react'
 import { useReadContract } from 'wagmi'
-import {parseUnits}from "viem"
 interface CampaignData {
   image: string;
   opp1: string;

@@ -1,9 +1,7 @@
 import useCampaign, { parseArrayToCampaignData } from "@/hooks/getCampaign";
+import Image from "next/image";
 import React from "react";
 import JSXStyle from "styled-jsx/style";
-
-
-
 
 type CampaignCardProp = {
 
@@ -31,7 +29,9 @@ export default function CampaignCard({ address }: CampaignCardProp) {
 
   return (
     <div className="flex flex-col bg-white border shadow-sm rounded-xl w-96">
-      <img
+      <Image
+        height={50}
+        width={50}
         className="w-full h-auto rounded-t-xl"
         src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80"
         alt="Image Description"
@@ -42,7 +42,7 @@ export default function CampaignCard({ address }: CampaignCardProp) {
         </h3>
         <p className="mt-1 text-gray-500 dark:text-neutral-400">
           Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          bulk of the cards content.
         </p>
         <div className="flex items-center gap-2">
           <a

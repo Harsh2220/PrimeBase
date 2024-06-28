@@ -8,6 +8,7 @@ import { factoryABI } from "@/contracts/prime-base/factoryABI";
 import React, { useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { parseUnits } from 'viem';
+import Image from "next/image";
 
 export default function Create() {
   const [productImage, setProductImage] = useState('');
@@ -166,7 +167,10 @@ export default function Create() {
       </div>
       <div className="w-full lg:w-1/2 px-4">
         <div className="relative max-w-md lg:max-w-2xl mx-auto lg:mr-0">
-          <img
+          <Image
+            loader={({ src }) => src}
+            height={50}
+            width={50}
             className="h-full w-full"
             src="https://shuffle.dev/saturn-assets/images/sign-up/image-funny.png"
             alt=""
@@ -179,7 +183,10 @@ export default function Create() {
                 week.
               </p>
               <div className="flex items-start">
-                <img
+                <Image
+                  loader={({ src }) => src}
+                  height={50}
+                  width={50}
                   src="https://shuffle.dev/saturn-assets/images/sign-up/avatar-pink.png"
                   alt=""
                 />

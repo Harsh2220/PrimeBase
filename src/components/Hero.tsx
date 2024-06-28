@@ -1,8 +1,6 @@
 "use client";
-
-
 import React from "react";
-import AccountConnect, { ConnectWallet } from "./connectwallet";
+import AccountConnect from "./connectwallet";
 
 export default function Hero() {
   return (

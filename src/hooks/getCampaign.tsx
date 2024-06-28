@@ -36,7 +36,7 @@ function useCampaign(contractAddress: string) {
   })
 
   return {
-    data: parseArrayToCampaignData(data),
+    data: parseArrayToCampaignData(data as any),
     error,
     isLoading
   }

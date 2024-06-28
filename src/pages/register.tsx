@@ -6,6 +6,7 @@ import { useAccount, useContractWrite, useReadContract, useWriteContract } from 
 import { BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS, PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "../constant/contracts";
 import { factoryABI } from "../contracts/prime-base/factoryABI";
 import { registerABI } from "@/contracts/onchain-verification/RegisterABI";
+import Image from "next/image";
 
 export default function Register() {
   const { writeContractAsync } = useWriteContract();
@@ -84,7 +85,9 @@ export default function Register() {
               fill="white"
             ></path>
           </svg>
-          <img
+          <Image
+            width={200}
+            height={200}
             className="mx-auto"
             src="https://shuffle.dev/zanrly-assets/logos/zanrly-logo-xl.svg"
             alt=""

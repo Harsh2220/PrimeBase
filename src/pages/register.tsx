@@ -1,0 +1,102 @@
+import React from "react";
+
+export default function Register() {
+  return (
+    <section className="bg-gray-100 min-h-screen">
+      <div className="container mx-auto px-4">
+        <div className="relative mb-16 py-16 px-8 max-w-xl mx-auto bg-white rounded-b-3xl">
+          <svg
+            className="absolute top-0 -left-6"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              width="1440"
+              height="992"
+              transform="translate(-424)"
+              fill="#F3F4F6"
+            ></rect>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M24 24C24 10.7452 13.2548 0 0 0H24H91H501H568H592C578.745 0 568 10.7452 568 24V162C568 175.255 557.255 186 544 186H48C34.7452 186 24 175.255 24 162V24Z"
+              fill="white"
+            ></path>
+          </svg>
+          <svg
+            className="absolute top-0 -right-6"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              width="1440"
+              height="992"
+              transform="translate(-992)"
+              fill="#F3F4F6"
+            ></rect>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M-544 24C-544 10.7452 -554.745 0 -568 0H-544H-477H-67H0H24C10.7452 0 0 10.7452 0 24V162C0 175.255 -10.7452 186 -24 186H-520C-533.255 186 -544 175.255 -544 162V24Z"
+              fill="white"
+            ></path>
+          </svg>
+          <img
+            className="mx-auto"
+            src="https://shuffle.dev/zanrly-assets/logos/zanrly-logo-xl.svg"
+            alt=""
+          />
+        </div>
+        <div className="md:max-w-md mx-auto">
+          <div className="mb-10 text-center">
+            <h2 className="font-heading mb-4 text-4xl md:text-5xl text-black font-black tracking-tight">
+              Welcome Back
+            </h2>
+            <p className="text-gray-500 font-bold">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada
+              tellus vestibulum, commodo pulvinar.
+            </p>
+          </div>
+          <form>
+            <div className="flex flex-wrap">
+              <div className="w-full p-3">
+                <label className="block mb-2 text-sm text-gray-500 font-semibold">
+                  Name
+                </label>
+                <input
+                  className="appearance-none px-6 py-3.5 w-full text-gray-500 bg-white placeholder-gray-500 outline-none border border-gray-200 focus:ring-4 focus:ring-blue-200 rounded-full font-semibold"
+                  type="text"
+                  placeholder="Enter your Name"
+                />
+              </div>
+              <div className="w-full p-3">
+                <label className="block mb-2 text-sm text-gray-500 font-semibold">
+                  Email Address
+                </label>
+                <input
+                  className="px-6 py-3.5 w-full text-gray-500 bg-white font-semibold placeholder-gray-500 outline-none border border-gray-200 focus:ring-4 focus:ring-blue-200 rounded-full"
+                  type="email"
+                  placeholder="Enter email address"
+                />
+              </div>
+              <div className="w-full p-2">
+                <a
+                  className="block px-8 py-3.5 text-lg text-center text-white font-bold bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-200 rounded-full"
+                  href="#"
+                >
+                  Register
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -3,13 +3,12 @@ import { OnchainKitProvider } from "@coinbase/onchainkit";
 import "@coinbase/onchainkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
-import { base } from "viem/chains";
+import { zoraSepolia } from "viem/chains";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
 import { coinbaseWallet } from "wagmi/connectors";
 
 const config = createConfig({
-  chains: [baseSepolia],
+  chains: [zoraSepolia],
   connectors: [
     coinbaseWallet({
       appName: "onchainkit",
@@ -17,7 +16,7 @@ const config = createConfig({
   ],
   ssr: true,
   transports: {
-    [baseSepolia.id]: http(),
+    [zoraSepolia.id]: http(),
   },
 });
 
@@ -29,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_KEY}
-          chain={base}
+          chain={zoraSepolia}
         >
           <Component {...pageProps} />
         </OnchainKitProvider>

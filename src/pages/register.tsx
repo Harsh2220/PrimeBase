@@ -1,9 +1,44 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import React, { useState } from "react";
+import { useAccount, useContractWrite, useReadContract, useWriteContract } from "wagmi";
+import { BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS, PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "../constant/contracts";
+import { useSimulateContract } from "wagmi";
+import { factoryABI } from "../contracts/prime-base/factoryABI";
+import { registerABI } from "@/contracts/onchain-verification/RegisterABI";
 
 export default function Register() {
+  const { writeContractAsync } = useWriteContract();
+  const { address } = useAccount();
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function registerEAS() {
+    try {
+      const easRegistry = await writeContractAsync({
+        abi: registerABI,
+        address: BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS,
+        functionName: "register",
+        args: [
+          "PRIME-BASE",
+          address,
+          false
+        ],
+      });
+
+      const response = await writeContractAsync({
+        abi: factoryABI,
+        address: PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS,
+        functionName: 'registerAsAdmin',
+        value: BigInt(100000000000000),
+        args: [
+        ],
+      })
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+
   return (
     <section className="bg-gray-100 min-h-screen">
       <div className="container mx-auto px-4">
@@ -79,7 +114,13 @@ export default function Register() {
               </Label>
               <Input id="name" placeholder="Enter your email" />
             </div>
-            <Button size={"lg"}>Register</Button>
+            <Button
+              onClick={async (e) => {
+                console.log(address)
+                e.preventDefault();
+                await registerEAS()
+              }}
+              size={"lg"}>Register</Button>
           </form>
         </div>
       </div>

@@ -1,6 +1,33 @@
+import useCampaign, { parseArrayToCampaignData } from "@/hooks/getCampaign";
 import React from "react";
 
-export default function CampaignCard() {
+
+
+
+type CampaignCardProp = {
+
+  address: string;
+
+}
+
+type CampaignData = {
+  image: string;
+  opp1: string;
+  opp2: string;
+  desc: string;
+  betAmount: string;
+  endTime: number;
+  winner: number;
+  isClosed: boolean;
+}
+export default function CampaignCard({ address }: CampaignCardProp) {
+
+
+  const { error, data, isLoading } = useCampaign(address);
+
+  console.log("da", data)
+
+
   return (
     <div className="flex flex-col bg-white border shadow-sm rounded-xl w-96">
       <img

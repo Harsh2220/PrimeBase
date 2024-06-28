@@ -1,14 +1,21 @@
 import CampaignCard from "@/components/cards/CampaignCard";
+import useGetAllCampaigns from "@/hooks/getAllCampaings";
+import { log } from "console";
 import React from "react";
 
 export default function Events() {
-  return (
-    <section className="container mx-auto flex items-center justify-between gap-2 flex-wrap">
-      <CampaignCard />
-      <CampaignCard />
-      <CampaignCard />
-      <CampaignCard />
-      <CampaignCard />
-    </section>
-  );
+
+  const { data, isLoading, error } = useGetAllCampaigns();
+
+  if (data && data.length > 0) {
+    return (
+      <section className="container mx-auto flex items-center justify-between gap-2 flex-wrap">
+        {
+          data.map((address) => {
+            return <CampaignCard address={address} key={address} />
+          })
+        }
+      </section>
+    );
+  }
 }

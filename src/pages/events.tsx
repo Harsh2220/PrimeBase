@@ -11,7 +11,7 @@ export default function Events() {
     return (
       <section className="container mx-auto flex items-center justify-between gap-2 flex-wrap">
         {
-          data.map((address) => {
+          data.map((address: string) => {
             return <CampaignCard address={address} key={address} />
           })
         }

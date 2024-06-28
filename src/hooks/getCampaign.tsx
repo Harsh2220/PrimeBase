@@ -3,7 +3,7 @@ import { PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from '@/constant/contracts'
 import { factoryABI } from '@/contracts/prime-base/factoryABI'
 import React from 'react'
 import { useReadContract } from 'wagmi'
-import {parseUnits}from "viem"
+import { parseUnits, formatEther } from "viem"
 interface CampaignData {
   image: string;
   opp1: string;
@@ -14,14 +14,13 @@ interface CampaignData {
   winner: number;
   isClosed: boolean;
 }
-export const parseArrayToCampaignData = (arr: (string | number | boolean)[]): CampaignData => {
+export const parseArrayToCampaignData = (arr: (string | number | boolean | bigint)[]): CampaignData => {
   return {
     image: arr[0] as string,
     opp1: arr[1] as string,
     opp2: arr[2] as string,
     desc: arr[3] as string,
-    //parse remain
-    betAmount: arr[4] as string,
+    betAmount: formatEther(arr[4] as bigint) as string,
     endTime: arr[5] as number,
     winner: arr[6] as number,
     isClosed: arr[7] as boolean,
@@ -37,7 +36,7 @@ function useCampaign(contractAddress: string) {
   })
 
   return {
-    data,
+    data: parseArrayToCampaignData(data),
     error,
     isLoading
   }

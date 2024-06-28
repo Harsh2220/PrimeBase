@@ -2,9 +2,79 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
+import Upload from "@/components/ui/upload";
+import { PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "@/constant/contracts";
+import { factoryABI } from "@/contracts/prime-base/factoryABI";
+import React, { useState } from "react";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { parseUnits } from 'viem';
 
 export default function Create() {
+  const [productImage, setProductImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [isImageUploading, setIsImageUploading] = useState(false);
+  const [opponent1, setOpponent1] = useState('');
+  const [opponent2, setOpponent2] = useState('');
+  const [description, setDescription] = useState('');
+  const [betAmount, setBetAmount] = useState(0);
+  const [deadline, setDeadline] = useState('');
+  const { writeContractAsync } = useWriteContract();
+  const { address } = useAccount();
+
+
+  const uploadProductImage = async (file: any) => {
+    setIsImageUploading(true);
+    const image = URL.createObjectURL(file);
+    setProductImage(image);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/files', {
+        method: 'POST',
+        body: formData,
+      });
+      const cid = await res.json();
+      console.log(cid);
+      setImageUrl(`https://gateway.pinata.cloud/ipfs/${cid.hash}`);
+      setIsImageUploading(false);
+    } catch (error) {
+      console.log(error);
+      setIsImageUploading(false);
+    }
+  };
+
+  const { data } = useReadContract({
+    abi: factoryABI,
+    address: PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS,
+    functionName: "registeredAdmins",
+    args: [address],
+  })
+
+  async function createCampaign() {
+    if (data === true) {
+      try {
+        
+        const response = await writeContractAsync({
+          abi: factoryABI,
+          address: '0x046288B7dB9ac43443e692b62F75345670F7ba4c',
+          functionName: 'createCampaign',
+          args: [
+            imageUrl,
+            opponent1,
+            opponent2,
+            description,
+            parseUnits(betAmount.toString(), 18),
+            1722157103
+          ],
+        })
+        console.log(response);
+      } catch (error) {
+        console.log("error", error)
+      }
+    } else {
+      // show a toast message
+    }
+  }
   return (
     <section className="flex container mx-auto px-4 items-center h-screen">
       <div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
@@ -18,9 +88,27 @@ export default function Create() {
           <form action="" className="flex flex-col gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name" className="mb-1">
-                Enter Name
+                Enter Opponent 1
               </Label>
-              <Input id="name" placeholder="Name of your campaign" />
+              <Input
+                onChange={(e) => setOpponent1(e.target.value)}
+                id="name" placeholder="Name of your opponent 1" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name" className="mb-1">
+                Enter Opponent 2
+              </Label>
+              <Input
+                onChange={(e) => setOpponent2(e.target.value)}
+                id="name" placeholder="Name of your opponent 2" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name" className="mb-1">
+                Enter Bet Amount
+              </Label>
+              <Input
+                onChange={(e) => setBetAmount(Number(e.target.value))}
+                id="name" placeholder="Amount of your bet" />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="description" className="mb-1">
@@ -28,10 +116,20 @@ export default function Create() {
               </Label>
               <Textarea
                 id="description"
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description of your campaign"
               />
             </div>
-            <div className="flex flex-col space-y-1.5">
+            <Upload
+              id="image"
+              name="image"
+              type="file"
+              label="Upload Product"
+              onChange={(e) => {
+                uploadProductImage(e.target.files[0]);
+              }}
+            />
+            {/* <div className="flex flex-col space-y-1.5">
               <Label
                 htmlFor="uploadFile1"
                 className="bg-white text-gray-500 font-semibold text-base rounded w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]"
@@ -56,8 +154,13 @@ export default function Create() {
                   PNG, JPG SVG, WEBP, and GIF are Allowed.
                 </p>
               </Label>
-            </div>
-            <Button size={"lg"}>Submit</Button>
+            </div> */}
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                createCampaign();
+              }}
+              size={"lg"}>Submit</Button>
           </form>
         </div>
       </div>

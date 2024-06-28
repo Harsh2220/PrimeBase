@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { useAccount, useContractWrite, useReadContract, useWriteContract } from "wagmi";
 import { BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS, PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "../constant/contracts";
-import { useSimulateContract } from "wagmi";
 import { factoryABI } from "../contracts/prime-base/factoryABI";
 import { registerABI } from "@/contracts/onchain-verification/RegisterABI";
 

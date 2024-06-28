@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import React from "react";
 
 export default function Register() {
@@ -63,37 +66,20 @@ export default function Register() {
               tellus vestibulum, commodo pulvinar.
             </p>
           </div>
-          <form>
-            <div className="flex flex-wrap">
-              <div className="w-full p-3">
-                <label className="block mb-2 text-sm text-gray-500 font-semibold">
-                  Name
-                </label>
-                <input
-                  className="appearance-none px-6 py-3.5 w-full text-gray-500 bg-white placeholder-gray-500 outline-none border border-gray-200 focus:ring-4 focus:ring-blue-200 rounded-full font-semibold"
-                  type="text"
-                  placeholder="Enter your Name"
-                />
-              </div>
-              <div className="w-full p-3">
-                <label className="block mb-2 text-sm text-gray-500 font-semibold">
-                  Email Address
-                </label>
-                <input
-                  className="px-6 py-3.5 w-full text-gray-500 bg-white font-semibold placeholder-gray-500 outline-none border border-gray-200 focus:ring-4 focus:ring-blue-200 rounded-full"
-                  type="email"
-                  placeholder="Enter email address"
-                />
-              </div>
-              <div className="w-full p-2">
-                <a
-                  className="block px-8 py-3.5 text-lg text-center text-white font-bold bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-200 rounded-full"
-                  href="#"
-                >
-                  Register
-                </a>
-              </div>
+          <form className="flex flex-col gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name" className="mb-1">
+                Enter Name
+              </Label>
+              <Input id="name" placeholder="Enter your name" />
             </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="name" className="mb-1">
+                Enter Email
+              </Label>
+              <Input id="name" placeholder="Enter your email" />
+            </div>
+            <Button size={"lg"}>Register</Button>
           </form>
         </div>
       </div>

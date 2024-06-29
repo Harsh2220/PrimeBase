@@ -6,7 +6,8 @@ import Upload from "@/components/ui/upload";
 import { PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "@/constant/contracts";
 import { factoryABI } from "@/contracts/prime-base/factoryABI";
 import React, { useState } from "react";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { useAccount, useChainId, useReadContract, useWriteContract, useSwitchChain,
+} from "wagmi";
 import { parseUnits } from 'viem';
 import Image from "next/image";
 
@@ -23,7 +24,8 @@ export default function Create() {
   const [deadline, setDeadline] = useState('');
   const { writeContractAsync } = useWriteContract();
   const { address } = useAccount();
-
+  const chainID = useChainId();
+  const { switchChain } = useSwitchChain();
 
   const uploadProductImage = async (file: any) => {
     setIsImageUploading(true);
@@ -54,6 +56,11 @@ export default function Create() {
   })
 
   async function createCampaign() {
+    console.log("create campaign", chainID)
+    if (chainID !== 999999999) {
+      switchChain({ chainId: 999999999 })
+    }
+
     if (data === true) {
       try {
         const currentTimestamp = Math.floor(Date.now() / 1000);

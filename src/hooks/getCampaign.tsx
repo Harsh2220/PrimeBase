@@ -36,7 +36,7 @@ function useCampaign(contractAddress: string) {
     functionName: "getCampaignDetails",
     args: [contractAddress],
   })
-  console.log("raw data",data)
+  
   const typedData = parseArrayToCampaignData(data as any) as CampaignData;
   return {
     data: typedData ?? [],

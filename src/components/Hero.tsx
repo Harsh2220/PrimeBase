@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 
 export default function Hero() {
@@ -6,9 +7,9 @@ export default function Hero() {
     <div className="relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/squared-bg-element.svg')] before:bg-no-repeat before:bg-center before:size-full before:-z-[1] before:transform before:-translate-x-1/2 min-h-[calc(100vh-64px)] flex justify-center items-center">
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center">
-          <a
+          <Link
             className="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-xs text-gray-600 p-2 px-3 rounded-full transition hover:border-gray-300"
-            href="#"
+            href="/events"
           >
             Explore the Campaigns
             <span className="flex items-center gap-x-1">
@@ -30,7 +31,7 @@ export default function Hero() {
                 <path d="m9 18 6-6-6-6" />
               </svg>
             </span>
-          </a>
+          </Link>
         </div>
 
         <div className="mt-5 max-w-xl text-center mx-auto">

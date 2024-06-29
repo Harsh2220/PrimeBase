@@ -1,11 +1,12 @@
 import "@/styles/globals.css";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
-import "@coinbase/onchainkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { zoraSepolia } from "viem/chains";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { coinbaseWallet } from "wagmi/connectors";
+import "@coinbase/onchainkit/tailwind.css";
+import Navbar from "@/components/Navbar";
 
 const config = createConfig({
   chains: [zoraSepolia],
@@ -30,6 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_KEY}
           chain={zoraSepolia}
         >
+          <Navbar />
           <Component {...pageProps} />
         </OnchainKitProvider>
       </QueryClientProvider>

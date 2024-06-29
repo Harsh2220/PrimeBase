@@ -4,6 +4,7 @@ import { factoryABI } from '@/contracts/prime-base/factoryABI'
 import React from 'react'
 import { useReadContract } from 'wagmi'
 import { parseUnits, formatEther } from "viem"
+import { log } from 'console'
 interface CampaignData {
   image: string;
   opp1: string;
@@ -35,6 +36,7 @@ function useCampaign(contractAddress: string) {
     functionName: "getCampaignDetails",
     args: [contractAddress],
   })
+  console.log("raw data",data)
   const typedData = parseArrayToCampaignData(data as any) as CampaignData;
   return {
     data: typedData ?? [],

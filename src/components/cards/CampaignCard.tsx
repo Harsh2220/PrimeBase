@@ -19,6 +19,7 @@ type CampaignData = {
 export default function CampaignCard({ address }: CampaignCardProp) {
   const { error, data, isLoading } = useCampaign(address);
 
+  console.log("data", data)
   if (isLoading || error) return;
 
   return (
@@ -29,10 +30,11 @@ export default function CampaignCard({ address }: CampaignCardProp) {
       </div>
       <div className="flex items-center justify-between gap-4 mt-4">
         <Button className="bg-blue-100 w-full text-blue-600">
-          Yes {data.betAmount}
+          {data?.opp1}{" "} {data.betAmount}
         </Button>
         <Button className="bg-red-100 text-red-600 w-full">
-          No {data.betAmount}
+          {data?.opp2} {" "} {data.betAmount}
+
         </Button>
       </div>
     </div>

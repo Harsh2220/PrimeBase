@@ -15,6 +15,7 @@ export default function Create() {
   const [imagePreviewUrl, setimagePreviewUrl] = useState("");
   const [imageUrl, setImageUrl] = useState('');
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [timeStamp, settimeStamp] = useState(0)
   const [opponent1, setOpponent1] = useState('');
   const [opponent2, setOpponent2] = useState('');
   const [description, setDescription] = useState('');
@@ -120,6 +121,18 @@ export default function Create() {
                 id="description"
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description of your campaign"
+              />
+            </div>
+
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="description" className="mb-1">
+                Expiration Time
+              </Label>
+              <input type="datetime-local"
+                onChange={(e) => {
+                  const unix = Math.floor(new Date(e.target.value).getTime() / 1000);
+                  settimeStamp(unix)
+                }}
               />
             </div>
             <Upload

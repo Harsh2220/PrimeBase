@@ -2,10 +2,12 @@ import useCampaign from "@/hooks/getCampaign";
 import { Button } from "../ui/button";
 import usePlaceBet from "@/hooks/usePlaceBet";
 import { log } from "console";
-import { useWriteContract } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
 import { primeBaseABI } from "@/contracts/prime-base/primebaseABI";
 import { parseUnits } from "viem";
 
+
+import { useReadContract } from 'wagmi'
 type CampaignCardProp = {
   address: string;
 };
@@ -24,7 +26,14 @@ type CampaignData = {
 export default function CampaignCard({ address }: CampaignCardProp) {
   const { error, data, isLoading } = useCampaign(address);
 
+  const { address: userAddress } = useAccount();
   const { writeContractAsync } = useWriteContract();
+
+  const { data: betAdmin, error: adminError } = useReadContract({
+    address: address as `0x${string}`,
+    abi: primeBaseABI,
+    functionName: 'admin'
+  })
 
   const placeBet = async (betContract: string, value: number, opnion: number) => {
     const response = await writeContractAsync({
@@ -39,8 +48,8 @@ export default function CampaignCard({ address }: CampaignCardProp) {
   const handlePlaceBet = async (op: number) => {
     try {
       const res = await placeBet(address, parseFloat(data?.betAmount), op)
-        console.log(res,"res");
-          
+      console.log(res, "res");
+
     } catch (e) {
       console.log(e, "e")
     }
@@ -74,6 +83,18 @@ export default function CampaignCard({ address }: CampaignCardProp) {
 
         </Button>
       </div>
+      {
+        betAdmin === userAddress &&
+        <>
+          <Button className="bg-red-100 text-red-600 w-full my-2"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            Declare Winner
+          </Button>
+        </>
+      }
     </div>
   );
 }

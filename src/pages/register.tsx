@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
-import { useAccount, useContractWrite, useReadContract, useWriteContract } from "wagmi";
-import { BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS, PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "../constant/contracts";
-import { factoryABI } from "../contracts/prime-base/factoryABI";
 import { registerABI } from "@/contracts/onchain-verification/RegisterABI";
 import Image from "next/image";
+import { useState } from "react";
+import { useAccount, useWriteContract } from "wagmi";
+import {
+  BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS,
+  PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS,
+} from "../constant/contracts";
+import { factoryABI } from "../contracts/prime-base/factoryABI";
 
 export default function Register() {
   const { writeContractAsync } = useWriteContract();
@@ -19,28 +22,23 @@ export default function Register() {
         abi: registerABI,
         address: BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS,
         functionName: "register",
-        args: [
-          "PRIME-BASE",
-          address,
-          false
-        ],
+        args: ["PRIME-BASE", address, false],
       });
 
       const response = await writeContractAsync({
         abi: factoryABI,
         address: PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS,
-        functionName: 'registerAsAdmin',
+        functionName: "registerAsAdmin",
         value: BigInt(100000000000000),
-        args: [
-        ],
-      })
+        args: [],
+      });
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
   }
 
   return (
-    <section className="bg-gray-100 min-h-screen">
+    <section className="bg-gray-100 min-h-[calc(100vh-64px)]">
       <div className="container mx-auto px-4">
         <div className="relative mb-16 py-16 px-8 max-w-xl mx-auto bg-white rounded-b-3xl">
           <svg
@@ -85,22 +83,21 @@ export default function Register() {
               fill="white"
             ></path>
           </svg>
-          <Image
-            width={200}
-            height={200}
-            className="mx-auto"
-            src="https://shuffle.dev/zanrly-assets/logos/zanrly-logo-xl.svg"
-            alt=""
-          />
+          <div className="flex items-center justify-center gap-3">
+            <Image width={80} height={80} src="/PrimeBet.png" alt="" />
+            <p className="text-4xl font-semibold">PrimeBet</p>
+          </div>
         </div>
         <div className="md:max-w-md mx-auto">
           <div className="mb-10 text-center">
             <h2 className="font-heading mb-4 text-4xl md:text-5xl text-black font-black tracking-tight">
-              Welcome Back
+              Register as Admin
             </h2>
-            <p className="text-gray-500 font-bold">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Malesuada
-              tellus vestibulum, commodo pulvinar.
+            <p className="text-gray-500 font-medium">
+              After register as a admin you can create campaign.
+            </p>
+            <p className="text-gray-500 text-xs font-semibold text-primary opacity-50">
+              Registering fees is 0.001ETH
             </p>
           </div>
           <form className="flex flex-col gap-4">
@@ -117,12 +114,15 @@ export default function Register() {
               <Input id="name" placeholder="Enter your email" />
             </div>
             <Button
+              disabled={!address}
               onClick={async (e) => {
-                console.log(address)
                 e.preventDefault();
-                await registerEAS()
+                await registerEAS();
               }}
-              size={"lg"}>Register</Button>
+              size={"lg"}
+            >
+              Register
+            </Button>
           </form>
         </div>
       </div>

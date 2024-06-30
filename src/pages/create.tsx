@@ -6,22 +6,27 @@ import Upload from "@/components/ui/upload";
 import { PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "@/constant/contracts";
 import { factoryABI } from "@/contracts/prime-base/factoryABI";
 import React, { useState } from "react";
-import { useAccount, useChainId, useReadContract, useWriteContract, useSwitchChain,
+import {
+  useAccount,
+  useChainId,
+  useReadContract,
+  useWriteContract,
+  useSwitchChain,
 } from "wagmi";
-import { parseUnits } from 'viem';
+import { parseUnits } from "viem";
 import Image from "next/image";
 
 export default function Create() {
-  const [productImage, setProductImage] = useState('');
+  const [productImage, setProductImage] = useState("");
   const [imagePreviewUrl, setimagePreviewUrl] = useState("");
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
   const [isImageUploading, setIsImageUploading] = useState(false);
-  const [timeStamp, settimeStamp] = useState(0)
-  const [opponent1, setOpponent1] = useState('');
-  const [opponent2, setOpponent2] = useState('');
-  const [description, setDescription] = useState('');
+  const [timeStamp, settimeStamp] = useState(0);
+  const [opponent1, setOpponent1] = useState("");
+  const [opponent2, setOpponent2] = useState("");
+  const [description, setDescription] = useState("");
   const [betAmount, setBetAmount] = useState(0);
-  const [deadline, setDeadline] = useState('');
+  const [deadline, setDeadline] = useState("");
   const { writeContractAsync } = useWriteContract();
   const { address } = useAccount();
   const chainID = useChainId();
@@ -33,9 +38,9 @@ export default function Create() {
     setProductImage(image);
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/files', {
-        method: 'POST',
+      formData.append("file", file);
+      const res = await fetch("/api/files", {
+        method: "POST",
         body: formData,
       });
       const cid = await res.json();
@@ -53,12 +58,12 @@ export default function Create() {
     address: PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS,
     functionName: "registeredAdmins",
     args: [address],
-  })
+  });
 
   async function createCampaign() {
-    console.log("create campaign", chainID)
+    console.log("create campaign", chainID);
     if (chainID !== 999999999) {
-      switchChain({ chainId: 999999999 })
+      switchChain({ chainId: 999999999 });
     }
 
     if (data === true) {
@@ -66,8 +71,8 @@ export default function Create() {
         const currentTimestamp = Math.floor(Date.now() / 1000);
         const response = await writeContractAsync({
           abi: factoryABI,
-          address: '0x046288B7dB9ac43443e692b62F75345670F7ba4c',
-          functionName: 'createCampaign',
+          address: "0x046288B7dB9ac43443e692b62F75345670F7ba4c",
+          functionName: "createCampaign",
           args: [
             imageUrl,
             opponent1,
@@ -76,85 +81,93 @@ export default function Create() {
             parseUnits(betAmount.toString(), 18),
             currentTimestamp,
           ],
-        })
+        });
         console.log(response);
       } catch (error) {
-        console.log("error", error)
+        console.log("error", error);
       }
     } else {
       // show a toast message
     }
   }
   return (
-    <section className="flex container mx-auto px-4 items-center h-screen">
+    <section className="flex container mx-auto px-4 items-center min-h-[calc(100vh-64px)]">
       <div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
-        <div className="max-w-md mx-auto lg:mx-0">
-          <h3 className="font-heading text-4xl text-gray-900 font-semibold mb-4">
-            Create Campaign
-          </h3>
-          <p className="text-lg text-gray-500 mb-10">
-            See our software in action with the demo version
-          </p>
-          <form action="" className="flex flex-col gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name" className="mb-1">
-                Enter Opponent 1
-              </Label>
-              <Input
-                onChange={(e) => setOpponent1(e.target.value)}
-                id="name" placeholder="Name of your opponent 1" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name" className="mb-1">
-                Enter Opponent 2
-              </Label>
-              <Input
-                onChange={(e) => setOpponent2(e.target.value)}
-                id="name" placeholder="Name of your opponent 2" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name" className="mb-1">
-                Enter Bet Amount
-              </Label>
-              <Input
-                onChange={(e) => setBetAmount(Number(e.target.value))}
-                id="name" placeholder="Amount of your bet" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="description" className="mb-1">
-                Description
-              </Label>
-              <Textarea
-                id="description"
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Description of your campaign"
-              />
-            </div>
+        <h3 className="font-heading text-4xl text-gray-900 font-semibold mb-4">
+          Create Campaign
+        </h3>
+        <p className="text-lg text-gray-500 mb-10">
+          See our software in action with the demo version
+        </p>
+        <form action="" className="flex flex-col gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name" className="mb-1">
+              Enter Opponent 1
+            </Label>
+            <Input
+              onChange={(e) => setOpponent1(e.target.value)}
+              id="name"
+              placeholder="Name of your opponent 1"
+            />
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name" className="mb-1">
+              Enter Opponent 2
+            </Label>
+            <Input
+              onChange={(e) => setOpponent2(e.target.value)}
+              id="name"
+              placeholder="Name of your opponent 2"
+            />
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="name" className="mb-1">
+              Enter Bet Amount
+            </Label>
+            <Input
+              onChange={(e) => setBetAmount(Number(e.target.value))}
+              id="name"
+              placeholder="Amount of your bet"
+            />
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="description" className="mb-1">
+              Description
+            </Label>
+            <Textarea
+              id="description"
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description of your campaign"
+            />
+          </div>
 
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="description" className="mb-1">
-                Expiration Time
-              </Label>
-              <input type="datetime-local"
-                onChange={(e) => {
-                  const unix = Math.floor(new Date(e.target.value).getTime() / 1000);
-                  settimeStamp(unix)
-                }}
-              />
-            </div>
-            <Upload
-              id="image"
-              name="image"
-              type="file"
-              label="Upload Product"
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="description" className="mb-1">
+              Expiration Time
+            </Label>
+            <input
+              type="datetime-local"
               onChange={(e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                  setimagePreviewUrl(URL.createObjectURL(e.target.files[0]))
-                  uploadProductImage(e.target.files[0]);
-                }
+                const unix = Math.floor(
+                  new Date(e.target.value).getTime() / 1000
+                );
+                settimeStamp(unix);
               }}
             />
-            {/* <div className="flex flex-col space-y-1.5">
+          </div>
+          <Upload
+            id="image"
+            name="image"
+            type="file"
+            label="Upload Product"
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                setimagePreviewUrl(URL.createObjectURL(e.target.files[0]));
+                uploadProductImage(e.target.files[0]);
+              }
+            }}
+          />
+          {/* <div className="flex flex-col space-y-1.5">
               <Label
                 htmlFor="uploadFile1"
                 className="bg-white text-gray-500 font-semibold text-base rounded w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]"
@@ -180,26 +193,27 @@ export default function Create() {
                 </p>
               </Label>
             </div> */}
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                createCampaign();
-              }}
-              size={"lg"}>Submit</Button>
-          </form>
-        </div>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              createCampaign();
+            }}
+            size={"lg"}
+          >
+            Submit
+          </Button>
+        </form>
       </div>
       <div className="w-full lg:w-1/2 px-4">
-        <div className="relative max-w-md lg:max-w-2xl mx-auto lg:mr-0">
-          <Image
-            loader={({ src }) => src}
-            height={50}
-            width={50}
-            className="h-full w-full"
-            src={imagePreviewUrl ? imagePreviewUrl : "https://shuffle.dev/saturn-assets/images/sign-up/image-funny.png"}
-            alt=""
-          />
-        </div>
+        <img
+          className="h-[calc(100vh-64px)] w-full object-contain ml-auto"
+          src={
+            imagePreviewUrl
+              ? imagePreviewUrl
+              : "https://shuffle.dev/saturn-assets/images/sign-up/image-funny.png"
+          }
+          alt=""
+        />
       </div>
     </section>
   );

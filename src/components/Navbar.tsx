@@ -11,11 +11,7 @@ export default function Navbar() {
   return (
     <nav className="container mx-auto flex justify-between items-center py-2">
       <a href="/">
-        <img
-          className="img-fluid"
-          src="https://shuffle.dev/flaro-assets/logos/flaro-logo-black.svg"
-          alt=""
-        />
+        <img className="w-12 h-12" src="/PrimeBet.png" alt="" />
       </a>
       <Wallet>
         <ConnectWallet>

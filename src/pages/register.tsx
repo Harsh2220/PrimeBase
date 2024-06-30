@@ -94,7 +94,7 @@ export default function Register() {
               Register as Admin
             </h2>
             <p className="text-gray-500 font-medium">
-              After register as a admin you can create campaign.
+              After register as a admin you can create campaigns.
             </p>
             <p className="text-gray-500 text-xs font-semibold text-primary opacity-50">
               Registering fees is 0.001ETH

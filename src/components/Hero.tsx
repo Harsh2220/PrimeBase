@@ -35,15 +35,14 @@ export default function Hero() {
         </div>
 
         <div className="mt-5 max-w-xl text-center mx-auto">
-          <h1 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl">
-            Supercharged Preline Experience
+          <h1 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-5xl">
+          Bet Smarter, Win Bigger
           </h1>
         </div>
 
         <div className="mt-5 max-w-3xl text-center mx-auto">
           <p className="text-lg text-gray-600">
-            Preline is a large open-source project, crafted with Tailwind CSS
-            framework by Hmlstream.
+          Join our platform for secure, seamless betting on enterprise campaigns with smart wallet protection and fast transactions.
           </p>
         </div>
         <div className="mt-8 gap-3 flex justify-center">
@@ -51,7 +50,8 @@ export default function Hero() {
             className="inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-full py-3 px-4"
             href="#"
           >
-            Get Started
+          
+           Get Started
           </a>
         </div>
       </div>

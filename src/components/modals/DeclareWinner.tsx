@@ -77,7 +77,7 @@ export default function DeclareWinner({
           </DialogDescription>
         </DialogHeader>
         <Select
-          onValueChange={(value) => {
+          onValueChange={(value:string) => {
             setSelectedWinner(parseInt(value));
           }}
         >
@@ -98,9 +98,9 @@ export default function DeclareWinner({
           <DialogClose asChild>
             <Button
               type="button"
-              onClick={() => {
+              onClick={async () => {
                 if (selectedWinner === null) return;
-                handleDeclareWinner(selectedWinner);
+               await handleDeclareWinner(selectedWinner);
               }}
             >
               Submit

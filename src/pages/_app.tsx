@@ -7,6 +7,7 @@ import { WagmiProvider, createConfig, http } from "wagmi";
 import { coinbaseWallet } from "wagmi/connectors";
 import "@coinbase/onchainkit/tailwind.css";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 const config = createConfig({
   chains: [zoraSepolia],
@@ -33,6 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
         >
           <Navbar />
           <Component {...pageProps} />
+          <Toaster />
         </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -5,6 +5,7 @@ import { primeBaseABI } from "@/contracts/prime-base/primebaseABI";
 import { parseUnits } from "viem";
 import Image from "next/image";
 import DeclareWinner from "../modals/DeclareWinner";
+import { useToast } from "../ui/use-toast";
 
 type CampaignCardProp = {
   address: string;
@@ -24,6 +25,7 @@ export default function CampaignCard({ address }: CampaignCardProp) {
   const { error, data, isLoading } = useCampaign(address);
   const { address: userAddress } = useAccount();
   const { writeContractAsync } = useWriteContract();
+  const { toast } = useToast();
 
   const { data: betAdmin, error: adminError } = useReadContract({
     address: address as `0x${string}`,
@@ -49,9 +51,14 @@ export default function CampaignCard({ address }: CampaignCardProp) {
   const handlePlaceBet = async (op: number) => {
     try {
       const res = await placeBet(address, parseFloat(data?.betAmount), op);
-      console.log(res, "res");
+      toast({
+        title: "Bet placed successfully",
+      });
     } catch (e) {
-      console.log(e, "e");
+      toast({
+        title: "Something went wrong!!",
+        variant: "destructive",
+      });
     }
   };
 

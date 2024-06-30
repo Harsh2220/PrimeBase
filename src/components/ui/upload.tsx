@@ -1,8 +1,7 @@
-import UploadIcon from "../icons/upload";
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
+import Image from "next/image";
+import { ChangeEvent, useState } from "react";
 import { Input } from "./input";
 import { Label } from "./label";
-import Image from "next/image";
 
 interface IUpload {
   id: string;
@@ -15,18 +14,21 @@ interface IUpload {
 
 const Upload = ({ id, name, type, accept, label, onChange }: IUpload) => {
   const [previewUrl, setpreviewUrl] = useState<string | null>(null);
+
+  if (previewUrl) {
+    return (
+      <Image
+        src={previewUrl}
+        height={80}
+        width={80}
+        alt=""
+        className="rounded-xl"
+      />
+    );
+  }
+
   return (
     <div className="flex flex-col space-y-1.5">
-      {
-
-        previewUrl ? <Image
-          src={previewUrl}
-          height={100}
-          width={400}
-          alt=""
-
-        /> : null
-      }
       <Label
         htmlFor="uploadFile1"
         className="bg-white text-gray-500 font-semibold text-base rounded w-full h-40 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]"
@@ -54,8 +56,8 @@ const Upload = ({ id, name, type, accept, label, onChange }: IUpload) => {
           accept={accept || "image/*"}
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
-              setpreviewUrl(URL.createObjectURL(e.target.files[0]))
-              onChange(e)
+              setpreviewUrl(URL.createObjectURL(e.target.files[0]));
+              onChange(e);
             }
           }}
           required

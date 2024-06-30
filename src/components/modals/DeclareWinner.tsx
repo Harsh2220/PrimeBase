@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "../ui/use-toast";
 
 type DeclareWinnerProp = {
   address: string;
@@ -34,6 +35,7 @@ export default function DeclareWinner({
 }: DeclareWinnerProp) {
   const { writeContractAsync } = useWriteContract();
   const [selectedWinner, setSelectedWinner] = useState<null | number>(null);
+  const { toast } = useToast();
 
   const declareWinner = async (winner: number) => {
     const response = await writeContractAsync({
@@ -48,9 +50,14 @@ export default function DeclareWinner({
   const handleDeclareWinner = async (winner: number) => {
     try {
       const res = await declareWinner(winner);
-      console.log(res, "res");
+      toast({
+        title: "Winner declared successfully",
+      });
     } catch (e) {
-      console.log(e, "e");
+      toast({
+        title: "Something went wrong!!",
+        variant: "destructive",
+      });
     }
   };
 
@@ -77,7 +84,7 @@ export default function DeclareWinner({
           </DialogDescription>
         </DialogHeader>
         <Select
-          onValueChange={(value:string) => {
+          onValueChange={(value: string) => {
             setSelectedWinner(parseInt(value));
           }}
         >
@@ -100,7 +107,7 @@ export default function DeclareWinner({
               type="button"
               onClick={async () => {
                 if (selectedWinner === null) return;
-               await handleDeclareWinner(selectedWinner);
+                await handleDeclareWinner(selectedWinner);
               }}
             >
               Submit

@@ -10,14 +10,18 @@ import {
   PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS,
 } from "../constant/contracts";
 import { factoryABI } from "../contracts/prime-base/factoryABI";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/components/Spinner";
 
 export default function Register() {
   const { writeContractAsync } = useWriteContract();
   const { address } = useAccount();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   async function registerEAS() {
     try {
+      setIsLoading(true);
       const easRegistry = await writeContractAsync({
         abi: registerABI,
         address: BASE_SEPOLIA_EAS_REGISTRY_CONTRACT_ADDRESS,
@@ -32,8 +36,16 @@ export default function Register() {
         value: BigInt(100000000000000),
         args: [],
       });
+      toast({
+        title: "Registered successfully",
+      });
     } catch (error) {
-      console.log("error", error);
+      toast({
+        title: "Something went wrong!!",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -114,14 +126,14 @@ export default function Register() {
               <Input id="name" placeholder="Enter your email" />
             </div>
             <Button
-              disabled={!address}
+              disabled={!address || isLoading}
               onClick={async (e) => {
                 e.preventDefault();
                 await registerEAS();
               }}
               size={"lg"}
             >
-              Register
+              {isLoading ? <Spinner /> : "Register"}
             </Button>
           </form>
         </div>

@@ -1,24 +1,25 @@
+import { DatePicker } from "@/components/DatePicker";
+import Spinner from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import Upload from "@/components/ui/upload";
+import { useToast } from "@/components/ui/use-toast";
 import { PRIMEBASE_FACTORY_ZORA_CONTRACT_ADDRESS } from "@/constant/contracts";
 import { factoryABI } from "@/contracts/prime-base/factoryABI";
-import React, { useState } from "react";
+import { useState } from "react";
+import { parseUnits } from "viem";
 import {
   useAccount,
   useChainId,
   useReadContract,
-  useWriteContract,
   useSwitchChain,
+  useWriteContract,
 } from "wagmi";
-import { parseUnits } from "viem";
-import Image from "next/image";
-import { DatePicker } from "@/components/DatePicker";
-import { log } from "console";
 
 export default function Create() {
+  const [isLoading, setIsLoading] = useState(false);
   const [productImage, setProductImage] = useState("");
   const [imagePreviewUrl, setimagePreviewUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -33,6 +34,7 @@ export default function Create() {
   const { address } = useAccount();
   const chainID = useChainId();
   const { switchChain } = useSwitchChain();
+  const { toast } = useToast();
 
   const uploadProductImage = async (file: any) => {
     setIsImageUploading(true);
@@ -63,7 +65,6 @@ export default function Create() {
   });
 
   async function createCampaign() {
-    console.log("create campaign", chainID);
     if (chainID !== 999999999) {
       switchChain({ chainId: 999999999 });
     }
@@ -84,12 +85,20 @@ export default function Create() {
             currentTimestamp,
           ],
         });
-        console.log(response);
+        toast({
+          title: "Campaign created successfully",
+        });
       } catch (error) {
-        console.log("error", error);
+        toast({
+          title: "Something went wrong!!",
+          variant: "destructive",
+        });
       }
     } else {
-      // show a toast message
+      toast({
+        title: "Something went wrong!!",
+        variant: "destructive",
+      });
     }
   }
   return (
@@ -145,10 +154,11 @@ export default function Create() {
               placeholder="Description of your campaign"
             />
           </div>
-          <DatePicker onClick={(date) => {
-            settimeStamp(new Date(date).getTime() / 1000)
-          }} />
-
+          <DatePicker
+            onClick={(date) => {
+              settimeStamp(new Date(date).getTime() / 1000);
+            }}
+          />
           <Upload
             id="image"
             name="image"
@@ -168,7 +178,7 @@ export default function Create() {
             }}
             size={"lg"}
           >
-            Submit
+            {isLoading ? <Spinner /> : "Create"}
           </Button>
         </form>
       </div>

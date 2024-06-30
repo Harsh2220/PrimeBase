@@ -65,42 +65,49 @@ export default function Create() {
   });
 
   async function createCampaign() {
-    if (chainID !== 999999999) {
-      switchChain({ chainId: 999999999 });
-    }
+    try {
+      setIsLoading(true);
+      if (chainID !== 999999999) {
+        switchChain({ chainId: 999999999 });
+      }
 
-    if (data === true) {
-      try {
-        const currentTimestamp = Math.floor(Date.now() / 1000);
-        const response = await writeContractAsync({
-          abi: factoryABI,
-          address: "0x046288B7dB9ac43443e692b62F75345670F7ba4c",
-          functionName: "createCampaign",
-          args: [
-            imageUrl,
-            opponent1,
-            opponent2,
-            description,
-            parseUnits(betAmount.toString(), 18),
-            currentTimestamp,
-          ],
-        });
-        toast({
-          title: "Campaign created successfully",
-        });
-      } catch (error) {
+      if (data === true) {
+        try {
+          const currentTimestamp = Math.floor(Date.now() / 1000);
+          const response = await writeContractAsync({
+            abi: factoryABI,
+            address: "0x046288B7dB9ac43443e692b62F75345670F7ba4c",
+            functionName: "createCampaign",
+            args: [
+              imageUrl,
+              opponent1,
+              opponent2,
+              description,
+              parseUnits(betAmount.toString(), 18),
+              currentTimestamp,
+            ],
+          });
+          toast({
+            title: "Campaign created successfully",
+          });
+        } catch (error) {
+          toast({
+            title: "Something went wrong!!",
+            variant: "destructive",
+          });
+        }
+      } else {
         toast({
           title: "Something went wrong!!",
           variant: "destructive",
         });
       }
-    } else {
-      toast({
-        title: "Something went wrong!!",
-        variant: "destructive",
-      });
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
     }
   }
+
   return (
     <section className="container mx-auto px-4 min-h-[calc(100vh-64px)] flex items-center justify-center">
       <div className="max-w-md">
@@ -172,6 +179,7 @@ export default function Create() {
             }}
           />
           <Button
+            disabled={!address || isLoading}
             onClick={(e) => {
               e.preventDefault();
               createCampaign();

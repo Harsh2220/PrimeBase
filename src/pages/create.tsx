@@ -16,6 +16,7 @@ import {
 import { parseUnits } from "viem";
 import Image from "next/image";
 import { DatePicker } from "@/components/DatePicker";
+import { log } from "console";
 
 export default function Create() {
   const [productImage, setProductImage] = useState("");
@@ -144,7 +145,10 @@ export default function Create() {
               placeholder="Description of your campaign"
             />
           </div>
-          <DatePicker onClick={() => {}} />
+          <DatePicker onClick={(date) => {
+            settimeStamp(new Date(date).getTime() / 1000)
+          }} />
+
           <Upload
             id="image"
             name="image"

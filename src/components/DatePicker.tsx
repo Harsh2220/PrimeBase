@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/popover";
 import React from "react";
 
-export function DatePicker({ onClick }: { onClick: () => void }) {
+export function DatePicker({ onClick }: { onClick: (date: Date) => void }) {
+
   const [date, setDate] = React.useState<Date>();
 
   return (
@@ -32,8 +33,8 @@ export function DatePicker({ onClick }: { onClick: () => void }) {
           mode="single"
           selected={date}
           onSelect={(value) => {
-            setDate(value);
-            onClick();
+            setDate(value)
+            if (value) onClick(value)
           }}
           initialFocus
         />

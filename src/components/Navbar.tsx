@@ -6,13 +6,14 @@ import {
   WalletDropdownDisconnect,
   WalletDropdownLink,
 } from "@coinbase/onchainkit/wallet";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
     <nav className="container mx-auto flex justify-between items-center py-2">
-      <a href="/">
+      <Link href="/">
         <img className="w-12 h-12" src="/PrimeBet.png" alt="" />
-      </a>
+      </Link>
       <Wallet>
         <ConnectWallet>
           <Avatar className="h-6 w-6" />
